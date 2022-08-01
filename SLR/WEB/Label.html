@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Sign Language Recognition-final year project 2022
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="main">
+            <div class="logo">
+                <img src="logo.jpg"></img>
+                </div>
+                <div>
+                    <h1>
+                        Dissolving Differences
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <br>
+    <h2 style="font-family: cursive; font-style: italic; text-align: center; color: lemonchiffon;background-color: black;opacity: 0.8;"><marquee behavior="scroll" scrollamount="12">Language should be a medium, not a barrier!</marquee></h2><br>
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2 id="demo" style="color: red; text-align: center;"></h2>
+            <div id="x" style="margin-left: 35%;"></div>
+            <div >
+                <br><br>
+                <input type="button" id="cap" class="button" value="Capture Answer">
+                <br><br>
+             </div>
+          </div>
+          <div class="col-sm-6" id="temp" style="
+          width: 400px;
+          height: 350px;
+          border: 3px solid green;
+          padding: 20px;
+          margin-left: 100px;"><br>
+          <h3 id="answer"></h3>
+          <img id="ans" style="margin-left: 20%;" src="buffer.png">
+          </div>
+      </div>
+   </div>
+    
+   <script>
+        var i = Math.floor(Math.random() * 12)+1;
+        document.getElementById("demo").innerHTML = "Label= "+i; 
+        var img = document.createElement("img");
+        img.src = "Symbols/" + i + ".png";
+        var div = document.getElementById("x");
+        div.appendChild(img); 
+     </script>
+    
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+     <script>
+       $("#cap").click(function(event){
+            let message = {
+                label: i
+            }
+            $.post("http://127.0.0.1:5000/capture", JSON.stringify(message), function(response){
+               $("#answer").text(response.prediction.answer);
+               im = JSON.parse(response.prediction.image);
+               console.log(im)
+               if(im===1){
+                    document.getElementById("ans").src="TICK.png";
+               }
+               else if(im===0){
+                    document.getElementById("ans").src="CROSS.png";
+               }
+            //    var img = document.createElement('img');
+            //    im = JSON.stringify(response.prediction.image);
+            //    img.src=im
+            //    console.log(im)
+            //    document.getElementById('temp').appendChild(img);
+            }); 
+        });
+
+        // $("#res").click(function(event){
+        //     document.getElementById("text").innerHTML="TESTING....."
+        //     var img = document.createElement('img');
+        //     img.src = "C:\\Users\\INTEL 2022\\Desktop\\gesture\\temp\\result\\0.jpg"
+        //     document.getElementById('temp').appendChild(img);
+        // });
+    </script>
+    <footer>
+        <p>Copyright &copy; TEAM MEMBERS: Pratibha , Priya, Priyanka, Srishti, Shaivya</p>
+        <p style="font-size: 12px;">Babu Banarasi Das Northern India Institute of Technology, Lucknow, Uttar Pradesh</p>
+    </footer>
+</body>
+</html>
